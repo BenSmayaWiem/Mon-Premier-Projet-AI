@@ -3,20 +3,15 @@ from flask import Flask
 from flask import render_template, request, redirect, url_for, session
 from flask_mysqldb import MySQL
 import MySQLdb.cursors
-import re
 import numpy as np
 import pandas as pd 
 import pickle
 from sklearn.feature_extraction.text import CountVectorizer
-from sklearn.naive_bayes import MultinomialNB
-from sklearn.externals import joblib
-
 
 
 app = Flask(__name__)
 
 model = pickle.load(open('model.pkl', 'rb'))
-
 
 
 # Clé de sécurtié 
@@ -30,7 +25,6 @@ app.config['MYSQL_DB'] = 'projet'
 
 # Intialisation MySQL
 mysql = MySQL(app)
-
 
 
 @app.route('/')
@@ -78,39 +72,32 @@ def logout():
    return render_template('login.html')
 
 
-@app.route('/register', methods=['GET', 'POST'])
-def register():
-    # Output message if something goes wrong...
+@app.route('/inscription', methods=['GET', 'POST'])
+def inscription():
+  
     msg = ''
-    # Check if "username", "password" and "email" POST requests exist (user submitted form)
+    # vérification si nom d'utilisateur/motde passe et email existe
     if request.method == 'POST' and 'username' in request.form and 'password' in request.form and 'email' in request.form:
-        # Create variables for easy access
+
         username = request.form['username']
         password = request.form['password']
         email = request.form['email']
-  # Check if account exists using MySQL
+        msg=username
+         # Vérifier si utilisateur et email existe
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute('SELECT * FROM users WHERE username = %s', (username))
+        cursor.execute('SELECT * FROM users WHERE username = %s AND email = %s', (username, email))
         account = cursor.fetchone()
-        # If account exists show error and validation checks
+        # Si le compte existe déjà
         if account:
-            msg = 'Account already exists!'
-        elif not re.match(r'[^@]+@[^@]+\.[^@]+', email):
-            msg = 'Invalid email address!'
-        elif not re.match(r'[A-Za-z0-9]+', username):
-            msg = 'Username must contain only characters and numbers!'
-        elif not username or not password or not email:
-            msg = 'Please fill out the form!'
+            msg = 'Le compte existe déjà'
+            return render_template('inscription.html', msg=msg)
+
+        # Si le compte n'existe pas
         else:
-            # Account doesnt exists and the form data is valid, now insert new account into accounts table
-            cursor.execute('INSERT INTO users VALUES (NULL, %s, %s, %s)', (username, password, email))
+            cursor.execute('INSERT INTO users VALUES (NULL, %s, %s, %s)',(username, password, email))
             mysql.connection.commit()
-            msg = 'You have successfully registered!'
-   
-    elif request.method == 'POST':
-            # Form is empty... (no POST data)
-            msg = 'Please fill out the form!'
-        # Show registration form with message (if any)
+            msg = 'Votre compte a bien été créé'
+
     return render_template('inscription.html', msg=msg)
 
 
@@ -145,16 +132,12 @@ def score():
 
 @app.route('/predict',methods=['POST'])
 def predict():
-    '''
-    For rendering results on HTML GUI
-    '''
     int_features = [int(x) for x in request.form.values()]
     final_features = [np.array(int_features)]
     prediction = model.predict(final_features)
-
     output = round(prediction[0], 2)
-
     return render_template('score.html', prediction_text='Votre salaire va être vers {} DT'.format(output))
+
 
 @app.route('/send_email')
 def send():
@@ -170,7 +153,7 @@ def spam():
     X = df['message']
     y = df['label']
     
-    # Extract Feature With CountVectorizer
+    # Extraction des features avec CountVectorizer
     cv = CountVectorizer()
     X = cv.fit_transform(X) # Fit the Data
     from sklearn.model_selection import train_test_split
@@ -181,10 +164,6 @@ def spam():
     clf = MultinomialNB()
     clf.fit(X_train,y_train)
     clf.score(X_test,y_test)
-    #Alternative Usage of Saved Model
-    # joblib.dump(clf, 'NB_spam_model.pkl')
-    # NB_spam_model = open('NB_spam_model.pkl','rb')
-    # clf = joblib.load(NB_spam_model)
 
     if request.method == 'POST':
         message = request.form['message']
