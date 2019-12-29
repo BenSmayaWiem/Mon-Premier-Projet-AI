@@ -297,3 +297,35 @@ body.loggedin {
     background-color: #A8EB12;
     transition: background-color 0.2s;
 }
+table {
+ border-collapse:collapse;
+ width:90%;
+ }
+th, td {
+ border:1px solid black;
+ width:20%;
+ }
+td {
+ text-align:center;
+ }
+caption {
+ font-weight:bold
+ }
+
+ .salaire input{
+    width: 30%;
+    height: 50px;
+    border: 1px solid #dee0e4;
+    margin-bottom: 20px;
+    padding: 0 15px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.btn{
+
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
