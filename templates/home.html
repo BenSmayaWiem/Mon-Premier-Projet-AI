@@ -1,0 +1,16 @@
+{% extends 'layout.html' %}
+
+{% block title %}Accueil{% endblock %}
+
+{% block content %}
+<h2>Accueil</h2>
+<p>Bienvenue {{ username }}</p>
+<br>
+<br>
+<p>
+        <button class="btn"><a href="{{ url_for('login') }}" class="btn">Mes candidateurs</a></button>
+        <button class="btn"><a href="{{ url_for('score') }}" class="btn">Voir Score</a></button>
+        <button class="btn"><a href="{{ url_for('send') }}" class="btn">Envoyer un Email</a></button>
+
+ </p>     
+{% endblock %}

@@ -1,0 +1,110 @@
+{% extends 'layout.html' %}
+
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+<style type="text/css">
+    
+table {
+ border-collapse:collapse;
+ width:90%;
+ }
+th, td {
+ border:1px solid black;
+ width:20%;
+ }
+td {
+ text-align:center;
+ }
+caption {
+ font-weight:bold
+ }
+
+ .salaire input{
+    width: 30%;
+    height: 50px;
+    border: 1px solid #dee0e4;
+    margin-bottom: 20px;
+    padding: 0 15px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.btn{
+
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+</style>
+<h2>Score</h2>
+<div>
+    <p>Ci-dessous vous trouverez tous les scores des testes technique ainsi que les entretiens passer la semaines derniers. </p>
+    <p>Pour vos questions, merci de nous contacter par email: <b>test.contact@gmail.com</b></p> </br> <br>
+
+
+ <table summary="ligne 1 : les navigateurs, ligne 2 : les pourcentages">
+     <caption>Liste des Scores pour la période entre 15/12 - 20/12 <caption> </br>
+     <tr>
+          <th>Nom d'utilisateur</th>
+          <th>Score Test technique</th>
+          <th>Test Orale</th>
+       
+     </tr>
+     <tr>
+          <td>Foulen Ben Falten</td>
+          <td>5</td>
+          <td>6</td>
+         
+     </tr>
+
+     <tr>
+          <td>Falten Ben Foulen</td>
+          <td>8</td>
+          <td>9</td>
+         
+     </tr>
+
+          <tr>
+          <td>Mohamed Ben Mohamed</td>
+          <td>7</td>
+          <td>7</td>
+         
+     </tr>
+
+          <tr>
+          <td>Utilisateur1 Utilisateur</td>
+          <td>8</td>
+          <td>6</td>
+         
+     </tr>
+
+          <tr>
+          <td>Faltena Ben Foulana</td>
+          <td>6</td>
+          <td>3</td>
+         
+     </tr>
+
+</table> <br> <br>
+
+    <p>Pour s'ammuser un peux on vous proposer une méthode trés sympatique qui vous donne la possibilité d'étimise votre salaire selon le nombre d'année d'expérience ainsi que votre score (test technique et orale):</b></p> </br> 
+
+
+ <form action="{{ url_for('predict')}}" method="post" class="salaire">
+        <input type="text" name="experience" placeholder="Experience" required="required" /> 
+        <input type="text" name="test_score" placeholder="Test Score" required="required" /> 
+        <input type="text" name="interview_score" placeholder="Interview Score" required="required" /> 
+        <button type="submit" class="btn btn-primary btn-block btn-large">Estimer votre Salaire</button>
+    </form>
+       <br> 
+  <b> {{ prediction_text }} </b>
+
+  <br> <br>
+
+
+</div>
+{% endblock %}

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
+
+    <style type="text/css">
+      
+* {
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "segoe ui", roboto, oxygen, ubuntu, cantarell, "fira sans", "droid sans", "helvetica neue", Arial, sans-serif;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+body {
+background-image: linear-gradient(to left top, #083373, #0069ad, #009cb0, #00ca7a, #a8eb12);    background-repeat: no-repeat;
+    background-size: 100% auto;
+  background-position: center top;
+    background-attachment: fixed;
+    margin: 0;
+}
+.login {
+    width: 400px;
+    background-color: #ffffff;
+    box-shadow: 0 0 9px 0 rgba(0, 0, 0, 0.3);
+    margin: 100px auto;
+}
+.login h1 {
+    text-align: center;
+    color: #5b6574;
+    font-size: 24px;
+    padding: 20px 0 20px 0;
+    border-bottom: 1px solid #dee0e4;
+}
+.login .links {
+    display: flex;
+    padding: 0 15px;
+}
+.login .links a {
+    color: #adb2ba;
+    text-decoration: none;
+    display: inline-flex;
+    padding: 0 10px 10px 10px;
+    font-weight: bold;
+}
+.login .links a:hover{
+    color: #9da3ac;
+}
+.login .links a.active{
+    border-bottom: 3px solid #3274d6;
+    color: #3274d6;
+}
+.login form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding-top: 20px;
+}
+.login form label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    background-color: #A8EB12;
+    color: #ffffff;
+}
+.login form input[type="password"], .login form input[type="text"], .login form input[type="email"] {
+    width: 310px;
+    height: 50px;
+    border: 1px solid #dee0e4;
+    margin-bottom: 20px;
+    padding: 0 15px;
+}
+.login form input[type="submit"] {
+    width: 100%;
+    padding: 15px;
+    margin-top: 20px;
+    background-color: #A8EB12;
+    border: 0;
+    cursor: pointer;
+    font-weight: bold;
+    color: #ffffff;
+    transition: background-color 0.2s;
+}
+.login form input[type="submit"]:hover{
+    background-color: #083373;
+    transition: background-color 0.2s;
+}
+}
+
+
+    </style>
+
+  </head>
+  <body>
+    <div class="login">
+      <h1>Connexion</h1>
+      <div class="links">
+      </div>
+      <form action="{{ url_for('login') }}" method="post">
+        <label for="username">
+          <i class="fas fa-user"></i>
+        </label>
+        <input type="text" name="username" placeholder="Nom d'utilisateur" id="username" required>
+        <label for="password">
+          <i class="fas fa-lock"></i>
+        </label>
+        <input type="password" name="password" placeholder="Mot de passe" id="password" required>
+        <div class="msg">{{ msg }}</div>
+        <input type="submit" value="Connexion">
+      </form>
+    </div>
+  </body>
+</html>

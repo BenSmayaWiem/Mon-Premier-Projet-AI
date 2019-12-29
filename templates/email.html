@@ -1,0 +1,64 @@
+{% extends 'layout.html' %}
+
+{% block title %}Envoyer un Email{% endblock %}
+
+{% block content %}
+<style type="text/css">
+
+ .spam input{
+    width: 30%;
+    height: 50px;
+    border: 1px solid #dee0e4;
+    margin-bottom: 20px;
+    padding: 0 15px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.spam textarea{
+    width: 30%;
+    height: 200px;
+    border: 1px solid #dee0e4;
+    margin-bottom: 20px;
+    padding: 0 15px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+.btn{
+
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+</style>
+
+
+<h2>Envoyer un email</h2>
+<div>
+
+    <p>Pour vos questions, merci de nous contacter par email: <b>test.contact@gmail.com</b></p> </br> <br>
+
+
+ <form action="{{ url_for('spam')}}" method="post" class="spam">
+        <input type="text" name="objet" placeholder="Object" required="required" /> 
+        <input type="email" name="email_des" placeholder="Email" required="required" /> 
+        <textarea name="message" rows="4" cols="50" placeholder="Saisir votre email" ></textarea>
+        <button type="submit" class="btn btn-primary btn-block btn-large">Prédire</button>
+    </form>
+       <br> 
+  <b> {% if prediction == 1%}
+  <h2 style="color:red;">Spam</h2>
+  {% elif prediction == 0%}
+  <h2 style="color:blue;">Not a Spam (It is a Ham)</h2>
+  {% endif %} </b>
+
+  <br> <br>
+
+
+</div>
+{% endblock %}
